@@ -1,0 +1,30 @@
+server {
+  listen {{ item.port }};
+  {% if item.server_name is defined %}
+    server_name {{ item.server_name }};
+  {% endif %}
+
+  {% if item.root_path is defined %}
+    location / {
+      root {{ item.root_path }};
+      index index.html;
+    }
+  {% endif %}
+
+  {% if item.proxy_pass is defined %}
+    location / {
+      proxy_pass {{ item.proxy_pass }};
+
+      proxy_http_version 1.1;
+      proxy_set_header Host $http_host;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_buffering off;
+    }
+  {% endif %}
+
+  {% if item.additional_params is defined %}
+    {% for k, v in item.additional_params.iteritems() %}
+      {{ k }} {{ v }};
+    {% endfor %}
+  {% endif %}
+}

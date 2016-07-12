@@ -1,0 +1,4 @@
+---
+- include: base.yml
+- include: www.yml
+- include: database.yml

@@ -1,0 +1,17 @@
+---
+- hosts: all
+  roles:
+    - role: nginx
+      become: yes
+      nginx_sites:
+        - file_name: 'default'
+          port: 80
+          root_path: '/var/www/default'
+        - file_name: 'meosite'
+          server_name: 'braden-walters.info www.braden-walters.info'
+          port: 80
+          root_path: '/var/www/meosite'
+        - file_name: 'kksystem'
+          server_name: 'kksystem.org www.kksystem.org'
+          port: 80
+          proxy_pass: 'http://127.0.0.1:4500'

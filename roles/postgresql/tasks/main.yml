@@ -1,0 +1,17 @@
+---
+- name: Install PostgreSQL Server
+  dnf: name={{ item }} state=present
+  with_items:
+    - postgresql-server
+    - postgresql-devel
+- name: Install psycopg2 for PostgreSQL functions in Ansible
+  dnf: name=python-psycopg2 state=present
+- name: Initialise database
+  command: postgresql-setup initdb creates=/var/lib/pgsql/data/pg_hba.conf
+- name: Start PostgreSQL service
+  service: name=postgresql state=started enabled=yes
+- name: Create users
+  postgresql_user: name={{ item['username'] }} password={{ item['password'] }} role_attr_flags={{ item['role_attr_flags'] }}
+  with_items: '{{ pg_users }}'
+  become: true
+  become_user: postgres
