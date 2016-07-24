@@ -1,0 +1,10 @@
+---
+- name: Check if RVM installed
+  stat: path=/etc/profile.d/rvm.sh
+  register: rvm_sh
+- name: Install RVM
+  include: ./rvm_install.yml
+  when: rvm_sh.stat.exists == False
+- name: Install Rubies
+  include: ./ruby_install.yml
+  with_items: '{{ ruby_versions }}'

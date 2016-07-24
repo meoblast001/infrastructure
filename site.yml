@@ -2,3 +2,4 @@
 - include: base.yml
 - include: www.yml
 - include: database.yml
+- include: ruby.yml

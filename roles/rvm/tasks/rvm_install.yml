@@ -1,0 +1,13 @@
+---
+- name: Receive PGP key for RVM
+  command: "gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3"
+- name: Downloading RVM installer
+  get_url:
+    url: '{{ rvm_url }}'
+    dest: '{{ rvm_temp_installer_path }}'
+- name: Make installer executable
+  file:
+    path: '{{ rvm_temp_installer_path }}'
+    mode: 0755
+- name: Install RVM
+  command: '{{ rvm_temp_installer_path }} --path {{ rvm_root }} stable'

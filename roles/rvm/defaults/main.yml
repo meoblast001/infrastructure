@@ -1,0 +1,4 @@
+---
+rvm_url: https://get.rvm.io
+rvm_temp_installer_path: /tmp/rvm-installer.sh
+rvm_root: /usr/local/rvm
