@@ -21,6 +21,7 @@ Vagrant.configure(2) do |config|
     ansible.limit = 'all'
     ansible.host_vars = {
         'default' => {
+            'unix.passwords.deploy' => 'a1b2c3',
             'postgresql.passwords.deploy' => '1234567890',
             'postgresql.passwords.application' => 'abcdefghij',
           }

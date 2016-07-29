@@ -6,5 +6,5 @@
   tasks:
     - group: name=deploy state=present
       become: yes
-    - user: name=deploy shell=/bin/bash groups=deploy state=present
+    - user: name=deploy shell=/bin/bash groups=deploy password={{ hostvars['default']['unix.passwords.deploy'] }} state=present
       become: yes
