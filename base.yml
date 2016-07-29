@@ -3,3 +3,8 @@
   roles:
     - role: selinux
       become: yes
+  tasks:
+    - group: name=deploy state=present
+      become: yes
+    - user: name=deploy shell=/bin/bash groups=deploy state=present
+      become: yes
