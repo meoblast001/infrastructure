@@ -1,3 +1,0 @@
----
-- name: Install Ruby through RVM
-  command: '{{ rvm_root }}/bin/rvm install {{ item }} creates={{ rvm_root }}/rubies/ruby-{{ item }}'
