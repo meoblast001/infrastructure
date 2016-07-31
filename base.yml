@@ -3,14 +3,20 @@
   roles:
     - role: selinux
       become: yes
+    - role: build-essential
+      become: yes
     - role: git-install
       become: yes
   tasks:
-    - file: src=/usr/bin/gpg2 dest=/usr/bin/gpg state=link
+    - name: Create symlink of gpg2 as gpg
+      file: src=/usr/bin/gpg2 dest=/usr/bin/gpg state=link
       become: yes
-    - group: name=deploy state=present
+    - name: Create deploy group
+      group: name=deploy state=present
       become: yes
-    - user: name=deploy shell=/bin/bash groups=deploy password={{ hostvars['default']['unix.passwords.deploy'] }} state=present
+    - name: Create deploy user
+      user: name=deploy shell=/bin/bash groups=deploy password={{ hostvars['default']['unix.passwords.deploy'] }} state=present
       become: yes
-    - file: path=/var/server owner=deploy group=deploy state=directory
+    - name: Create directory for server applications
+      file: path=/var/server owner=deploy group=deploy state=directory
       become: yes

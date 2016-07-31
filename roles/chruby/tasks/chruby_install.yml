@@ -1,0 +1,7 @@
+---
+- name: Download and unarchive chruby
+  unarchive: src=https://github.com/postmodern/chruby/archive/v0.3.9.tar.gz dest=/tmp/ copy=no
+  become: yes
+- name: Install chruby
+  command: /tmp/chruby-0.3.9/scripts/setup.sh chdir=/tmp/chruby-0.3.9
+  become: yes

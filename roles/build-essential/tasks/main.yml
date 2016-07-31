@@ -1,0 +1,11 @@
+---
+- name: Install make
+  dnf: name=make state=present
+- name: Install automake
+  dnf: name=automake state=present
+- name: Install gcc
+  dnf: name=gcc state=present
+- name: Install gcc-c++
+  dnf: name=gcc-c++ state=present
+- name: Install kernel-devel
+  dnf: name=kernel-devel state=present

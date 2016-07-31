@@ -1,8 +1,7 @@
 ---
 - hosts: all
   roles:
-    - role: rvm_io.rvm1-ruby
-      become: yes
-      rvm1_install_path: "/usr/local/rvm"
-      rvm1_rubies:
+    - role: chruby
+      ruby_user: deploy
+      ruby_versions:
         - "ruby-2.1.5"

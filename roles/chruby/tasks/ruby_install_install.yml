@@ -1,0 +1,7 @@
+---
+- name: Download and unarchive ruby-install
+  unarchive: src=https://github.com/postmodern/ruby-install/archive/v0.6.0.tar.gz dest=/tmp/ copy=no
+  become: yes
+- name: Install ruby-install
+  command: make install chdir=/tmp/ruby-install-0.6.0
+  become: yes
