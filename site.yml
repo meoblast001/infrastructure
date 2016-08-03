@@ -3,3 +3,4 @@
 - include: www.yml
 - include: database.yml
 - include: ruby.yml
+- include: haskell.yml

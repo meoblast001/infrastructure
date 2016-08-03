@@ -1,0 +1,8 @@
+---
+- name: Add repository peterson/ghc-8.0.1
+  shell: dnf copr enable -y petersen/ghc-8.0.1 creates=/etc/yum.repos.d/_copr_petersen-ghc-8.0.1.repo warn=False
+- name: Install ghc and cabal-install
+  dnf: name={{ item }} state=present
+  with_items:
+    - "ghc"
+    - "cabal-install"
