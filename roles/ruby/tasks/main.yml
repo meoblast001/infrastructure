@@ -1,0 +1,18 @@
+---
+- name: Install ruby
+  dnf: name=ruby state=present
+  become: yes
+- name: Install rubygems
+  dnf: name=rubygems state=present
+  become: yes
+- name: Determine the home directory of user {{ gem_user }}
+  shell: "getent passwd {{ gem_user }} | cut -d: -f6"
+  register: gem_user_home
+- name: Create {{ gem_user_home.stdout }}/.gemrc file
+  template: src=gemrc.j2 dest={{ gem_user_home.stdout }}/.gemrc
+  become: yes
+  become_user: "{{ gem_user }}"
+- name: Install bundler
+  shell: gem install bundler creates={{ gem_user_home.stdout }}/.gem/bin/bundle
+  become: yes
+  become_user: "{{ gem_user }}"

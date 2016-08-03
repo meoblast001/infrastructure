@@ -1,7 +1,5 @@
 ---
 - hosts: all
   roles:
-    - role: chruby
-      ruby_user: deploy
-      ruby_versions:
-        - "ruby-2.1.5"
+    - role: ruby
+      gem_user: "deploy"

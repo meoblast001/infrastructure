@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', :inline => <<-SHELL
     ln -s /etc/dnf/dnf.conf /etc/yum.conf
     dnf install -y python2 python2-dnf
-    grep -q -F "vagrant ALL=(ALL) NOPASSWD:/bin/sh" || echo "vagrant ALL=(ALL) NOPASSWD:/bin/sh" >> /etc/sudoers
+    grep -q -F "vagrant ALL=(ALL) NOPASSWD: ALL" || echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
   SHELL
 
   config.vm.provision 'ansible' do |ansible|
