@@ -3,3 +3,5 @@
   roles:
     - role: ruby
       gem_user: "deploy"
+    - role: rails-dependencies
+      become: yes
