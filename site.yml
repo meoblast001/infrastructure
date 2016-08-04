@@ -4,3 +4,4 @@
 - include: database.yml
 - include: ruby.yml
 - include: haskell.yml
+- include: kksystem.yml

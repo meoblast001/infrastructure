@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+    - role: kksystem
+      become: yes
+      become_user: deploy

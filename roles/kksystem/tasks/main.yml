@@ -1,0 +1,10 @@
+---
+- name: Fetch over Git
+  git: repo=https://github.com/meoblast001/kksystem.git dest=/var/server/kksystem force=yes
+- name: Remove references to unused gems from Gemfile
+  lineinfile: line="gem '{{ item }}'" dest=/var/server/kksystem/Gemfile state=absent
+  with_items:
+    - "sqlite3"
+    - "mysql"
+- name: Bundle install
+  bundler: state=present executable=~/.gem/bin/bundle chdir=/var/server/kksystem
