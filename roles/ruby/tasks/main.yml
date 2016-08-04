@@ -2,6 +2,9 @@
 - name: Install ruby
   dnf: name=ruby state=present
   become: yes
+- name: Install ruby-devel
+  dnf: name=ruby-devel state=present
+  become: yes
 - name: Install rubygems
   dnf: name=rubygems state=present
   become: yes
@@ -15,5 +18,9 @@
   become_user: "{{ gem_user }}"
 - name: Install bundler
   shell: gem install bundler creates={{ gem_user_home.stdout }}/.gem/bin/bundle
+  become: yes
+  become_user: "{{ gem_user }}"
+- name: Add Ruby bin to PATH
+  lineinfile: dest={{ gem_user_home.stdout }}/.bashrc line=PATH=$PATH:{{ gem_user_home.stdout }}/.gem/bin/
   become: yes
   become_user: "{{ gem_user }}"
