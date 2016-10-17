@@ -15,3 +15,7 @@
           server_name: 'kksystem.org www.kksystem.org'
           port: 80
           proxy_pass: 'http://127.0.0.1:4500'
+  tasks:
+    - name: Create /var/www directory
+      file: path=/var/www state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t
+      become: yes

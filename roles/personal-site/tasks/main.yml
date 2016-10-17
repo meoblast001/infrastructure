@@ -21,14 +21,19 @@
     creates: /var/server/meosite/dist/build/site/site
   become: yes
   become_user: "{{ deploy_user }}"
-- name: Install xelatex (texlive-collection-fontsrecommended, texlive-xetex, texlive-latex, texlive-titlesec)
+- name: Install xelatex and libraries required to compile LaTeX documents
   dnf: name={{ item }} state=present
   become: yes
   with_items:
     - "texlive-collection-fontsrecommended"
     - "texlive-xetex"
     - "texlive-latex"
+    - "texlive-babel"
     - "texlive-titlesec"
+    - "texlive-moderncv"
+    - "texlive-euenc"
+    - "fontawesome-fonts"
+    - "texlive-fontawesome"
 - name: Install coffee-script
   dnf: name=coffee-script state=present
   become: yes
@@ -36,9 +41,16 @@
   dnf: name=ImageMagick state=present
   become: yes
 - name: Rebuild static site
-  command: dist/build/site/site
+  shell: LC_ALL=en_US dist/build/site/site rebuild
   args:
     chdir: /var/server/meosite
     creates: /var/server/meosite/_site/index.html
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Deploy static site
+  command: dist/build/site/site deploy
+  args:
+    chdir: /var/server/meosite
+    creates: /var/www/meosite/index.html
   become: yes
   become_user: "{{ deploy_user }}"
