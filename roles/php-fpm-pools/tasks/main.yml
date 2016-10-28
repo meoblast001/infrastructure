@@ -1,0 +1,6 @@
+---
+- name: Configure php-fpm pools
+  template: src=pool.conf.j2 dest=/etc/php-fpm.d/{{ item['file_name'] }}.conf
+  with_items: '{{ php_fpm_pools }}'
+- name: Restart php-fpm
+  service: name=php-fpm state=restarted

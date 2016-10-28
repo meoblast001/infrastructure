@@ -7,7 +7,16 @@ server {
   {% if item.root_path is defined %}
     location / {
       root {{ item.root_path }};
-      index index.html;
+      index {% if item.index is defined %}{{ item.index }}{% else %}index.html{% endif %};
+
+      {% if item.has_php is defined and item.has_php == True %}
+        location ~ \.php$ {
+          fastcgi_param REQUEST_METHOD $request_method;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+          fastcgi_index index.php;
+          fastcgi_pass unix:/var/run/php-fpm/{{ item.file_name }}.sock;
+        }
+      {% endif %}
     }
   {% endif %}
 
