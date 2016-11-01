@@ -6,3 +6,4 @@
 - include: ruby.yml
 - include: personal-site.yml
 - include: kksystem.yml
+- include: caldav.yml

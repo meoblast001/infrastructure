@@ -18,7 +18,7 @@
         - file_name: 'davical'
           server_name: 'braden-walters.info www.braden-walters.info'
           port: 8443
-          root_path: '/var/server/davical'
+          root_path: '/var/server/davical/htdocs'
           index: index.php
           has_php: yes
     - role: php

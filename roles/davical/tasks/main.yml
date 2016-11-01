@@ -1,0 +1,7 @@
+---
+- name: Install davical 0.9.5 from Git
+  git: dest=/var/server/davical repo=https://gitlab.com/davical-project/davical.git version=0.9.5
+  become: yes
+- name: Make /var/server/davical owned by deploy and setype httpd_sys_content_t
+  file: path=/var/server/davical state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t
+  become: yes

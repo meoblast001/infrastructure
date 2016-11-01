@@ -1,0 +1,5 @@
+---
+- hosts: all
+  roles:
+    - role: davical
+      deploy_user: deploy
