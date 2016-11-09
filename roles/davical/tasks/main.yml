@@ -1,7 +1,23 @@
 ---
 - name: Install davical 0.9.5 from Git
-  git: dest=/var/server/davical repo=https://gitlab.com/davical-project/davical.git version=0.9.5
+  git: dest=/usr/local/share/davical repo=https://gitlab.com/davical-project/davical.git version=0.9.5
   become: yes
-- name: Make /var/server/davical owned by deploy and setype httpd_sys_content_t
-  file: path=/var/server/davical state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t
+- name: Make /usr/local/share/davical owned by deploy and setype httpd_sys_content_t
+  file: path=/usr/local/share/davical state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t
   become: yes
+- name: Install awl for davical from Git
+  git: dest=/usr/local/share/awl repo=https://gitlab.com/davical-project/awl.git version=r0.56
+  become: yes
+- name: Determine whether davical database exists
+  shell: psql -lqt | cut -d \| -f 1 | grep -qw davical
+  changed_when: False
+  register: db_exists
+  become: yes
+  become_user: "{{ postgres_user }}"
+- name: Create database for davical
+  shell: ./create-database.sh
+  args:
+    chdir: /usr/local/share/davical/dba
+  when: db_exists.rc == 1
+  become: yes
+  become_user: "{{ postgres_user }}"

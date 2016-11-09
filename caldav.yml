@@ -3,3 +3,4 @@
   roles:
     - role: davical
       deploy_user: deploy
+      postgres_user: postgres
