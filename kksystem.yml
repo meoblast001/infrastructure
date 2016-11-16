@@ -8,3 +8,7 @@
         secret_key_base: "{{ hostvars['default']['kksystem.secret_key_base'] }}"
         mailer_sender: noreply@kksystem.org
         default_url: kksystem.org
+      database:
+        name: kksystem
+        username: application
+        password: "{{ hostvars['default']['postgresql.passwords.application'] }}"
