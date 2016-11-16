@@ -1,0 +1,26 @@
+module UserSettings
+  SECRET_KEY_BASE = '{{ config.secret_key_base }}'
+  MAILER_SENDER = '{{ config.mailer_sender }}'
+  DEFAULT_URL = '{{ config.default_url }}'
+
+  module Application
+    #General application settings.
+  end
+
+  module Development
+    #Only for development.
+  end
+
+  module Test
+    #Only for test.
+  end
+
+  module Production
+    #Only for production.
+    ActionMailer::Base.smtp_settings = {
+        :address => "localhost",
+        :port => 25,
+      }
+    I18n.enforce_available_locales = false
+  end
+end

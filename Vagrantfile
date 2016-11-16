@@ -13,6 +13,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.network 'forwarded_port', :guest => 80, :host => 3000
+  config.vm.network 'forwarded_port', :guest => 8443, :host => 8443
 
   config.vm.provision 'shell', :inline => <<-SHELL
     ln -s /etc/dnf/dnf.conf /etc/yum.conf
@@ -28,6 +29,7 @@ Vagrant.configure(2) do |config|
             'unix.passwords.deploy' => 'a1b2c3',
             'postgresql.passwords.deploy' => '1234567890',
             'postgresql.passwords.application' => 'abcdefghij',
+            'kksystem.secret_key_base' => '10101010',
           }
       }
   end

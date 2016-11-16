@@ -4,3 +4,7 @@
     - role: kksystem
       become: yes
       become_user: deploy
+      config:
+        secret_key_base: "{{ hostvars['default']['kksystem.secret_key_base'] }}"
+        mailer_sender: noreply@kksystem.org
+        default_url: kksystem.org

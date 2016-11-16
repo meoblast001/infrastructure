@@ -6,5 +6,9 @@
   with_items:
     - "sqlite3"
     - "mysql"
+- name: Add passenger to Gemfile
+  lineinfile: line="gem 'passenger'" dest=/var/server/kksystem/Gemfile state=present
 - name: Bundle install
   bundler: state=present executable=~/.gem/bin/bundle chdir=/var/server/kksystem
+- name: Install user_config.rb
+  template: src=user_settings.rb.j2 dest=/var/server/kksystem/config/user_settings.rb
