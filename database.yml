@@ -10,3 +10,6 @@
         - username: application
           password: "{{ hostvars['default']['postgresql.passwords.application'] }}"
           role_attr_flags: LOGIN
+      pg_databases:
+        - database: kksystem
+          owner: application

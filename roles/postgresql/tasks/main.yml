@@ -15,3 +15,8 @@
   with_items: '{{ pg_users }}'
   become: true
   become_user: postgres
+- name: Create databases
+  postgresql_db: name={{ item['database'] }} owner="{{ item['owner'] }}" state=present
+  with_items: '{{ pg_databases }}'
+  become: true
+  become_user: postgres
