@@ -14,7 +14,7 @@
         - file_name: 'kksystem'
           server_name: 'kksystem.org www.kksystem.org'
           port: 80
-          proxy_pass: 'http://127.0.0.1:4500'
+          proxy_pass: 'http://unix:/var/server/kksystem/passenger.sock:/'
         - file_name: 'davical'
           server_name: 'braden-walters.info www.braden-walters.info'
           port: 8443
