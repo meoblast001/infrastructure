@@ -14,8 +14,17 @@
   template: src=user_settings.rb.j2 dest=/var/server/kksystem/config/user_settings.rb
 - name: Install database.yml
   template: src=database.yml.j2 dest=/var/server/kksystem/config/database.yml
+- name: Migrate database
+  shell: RAILS_ENV=production bin/rake db:migrate
+  args:
+    chdir: /var/server/kksystem
 - name: Install simple_form
   shell: RAILS_ENV=production bin/rails generate simple_form:install
   args:
     creates: /var/server/kksystem/config/initializers/simple_form.rb
+    chdir: /var/server/kksystem
+- name: Precompile assets
+  shell: RAILS_ENV=production bin/rake assets:precompile
+  args:
+    creates: /var/server/kksystem/public/assets
     chdir: /var/server/kksystem

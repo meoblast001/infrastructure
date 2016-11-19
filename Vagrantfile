@@ -12,8 +12,7 @@ Vagrant.configure(2) do |config|
     config.cache.scope = :box
   end
 
-  config.vm.network 'forwarded_port', :guest => 80, :host => 3000
-  config.vm.network 'forwarded_port', :guest => 8443, :host => 8443
+  config.vm.network 'private_network', type: 'dhcp'
 
   config.vm.provision 'shell', :inline => <<-SHELL
     ln -s /etc/dnf/dnf.conf /etc/yum.conf
