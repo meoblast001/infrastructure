@@ -8,6 +8,9 @@
   dnf: name=python-psycopg2 state=present
 - name: Initialise database
   command: postgresql-setup initdb creates=/var/lib/pgsql/data/pg_hba.conf
+- name: Install pg_hba.conf
+  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf
+  become: yes
 - name: Start PostgreSQL service
   service: name=postgresql state=started enabled=yes
 - name: Create users
@@ -18,5 +21,10 @@
 - name: Create databases
   postgresql_db: name={{ item['database'] }} owner="{{ item['owner'] }}" state=present
   with_items: '{{ pg_databases }}'
+  become: true
+  become_user: postgres
+- name: Update privileges of databases
+  postgresql_privs: db={{ item['database'] }} privs={{ item['privileges'] }} roles={{ item['username'] }} objs={{ item['objs'] }} state=present
+  with_items: '{{ pg_privileges }}'
   become: true
   become_user: postgres
