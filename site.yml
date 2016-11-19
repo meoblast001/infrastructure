@@ -2,6 +2,7 @@
 - include: base.yml
 - include: www.yml
 - include: database.yml
+- include: mail.yml
 - include: haskell.yml
 - include: ruby.yml
 - include: personal-site.yml
