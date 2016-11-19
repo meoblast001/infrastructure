@@ -2,8 +2,7 @@
 - hosts: all
   roles:
     - role: kksystem
-      become: yes
-      become_user: deploy
+      deploy_user: deploy
       config:
         secret_key_base: "{{ hostvars['default']['kksystem.secret_key_base'] }}"
         mailer_sender: noreply@kksystem.org

@@ -1,30 +1,51 @@
 ---
 - name: Fetch over Git
   git: repo=https://github.com/meoblast001/kksystem.git dest=/var/server/kksystem force=yes
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Remove references to unused gems from Gemfile
   lineinfile: line="gem '{{ item }}'" dest=/var/server/kksystem/Gemfile state=absent
   with_items:
     - "sqlite3"
     - "mysql"
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Add passenger to Gemfile
   lineinfile: line="gem 'passenger'" dest=/var/server/kksystem/Gemfile state=present
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Bundle install
   bundler: state=present executable=~/.gem/bin/bundle chdir=/var/server/kksystem
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Install user_config.rb
   template: src=user_settings.rb.j2 dest=/var/server/kksystem/config/user_settings.rb
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Install database.yml
   template: src=database.yml.j2 dest=/var/server/kksystem/config/database.yml
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Migrate database
   shell: RAILS_ENV=production bin/rake db:migrate
   args:
     chdir: /var/server/kksystem
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Install simple_form
   shell: RAILS_ENV=production bin/rails generate simple_form:install
   args:
     creates: /var/server/kksystem/config/initializers/simple_form.rb
     chdir: /var/server/kksystem
+  become: yes
+  become_user: "{{ deploy_user }}"
 - name: Precompile assets
   shell: RAILS_ENV=production bin/rake assets:precompile
   args:
     creates: /var/server/kksystem/public/assets
     chdir: /var/server/kksystem
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Install systemd service file
+  copy: src=kksystem.service dest=/etc/systemd/system/multi-user.target.wants/kksystem.service
+  become: yes
