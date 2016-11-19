@@ -54,3 +54,11 @@
     creates: /var/www/meosite/index.html
   become: yes
   become_user: "{{ deploy_user }}"
+- name: Install code-graph in crontab
+  cron: name=code-graph state=present
+  args:
+    value: /var/server/meosite/dist/build/code-graph/code-graph meoblast001 /var/www/meosite /home/deploy/error.code-graph.log
+    user: deploy
+    minute: 0
+    hour: 6
+  become: yes
