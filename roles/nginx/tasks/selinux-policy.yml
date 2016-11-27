@@ -1,0 +1,22 @@
+---
+- name: Query list of SELinux modules
+  shell: semodule -l
+  register: selinuxmodules
+  always_run: yes
+  changed_when: False
+- name: Copy nginx_socket_proxy_pass.te to system
+  copy: src=nginx_socket_proxy_pass.te dest=/tmp/nginx_socket_proxy_pass.te
+  when: "selinuxmodules.stdout.find('nginx_socket_proxy_pass') == -1"
+- name: Generate nginx_socket_proxy_pass.mod
+  shell: checkmodule -M -m -o nginx_socket_proxy_pass.mod nginx_socket_proxy_pass.te
+  args:
+    chdir: /tmp
+  when: "selinuxmodules.stdout.find('nginx_socket_proxy_pass') == -1"
+- name: Generate nginx_socket_proxy_pass.pp
+  shell: semodule_package -o nginx_socket_proxy_pass.pp -m nginx_socket_proxy_pass.mod
+  args:
+    chdir: /tmp
+  when: "selinuxmodules.stdout.find('nginx_socket_proxy_pass') == -1"
+- name: Install nginx_socket_proxy_pass with semodule
+  shell: semodule -i /tmp/nginx_socket_proxy_pass.pp
+  when: "selinuxmodules.stdout.find('nginx_socket_proxy_pass') == -1"

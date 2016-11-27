@@ -8,3 +8,4 @@
   with_items: '{{ nginx_sites }}'
 - name: Start nginx service
   service: name=nginx state=restarted enabled=yes
+- include: selinux-policy.yml

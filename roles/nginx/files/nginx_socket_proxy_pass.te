@@ -1,0 +1,12 @@
+module nginx_socket_proxy_pass 1.0;
+
+require {
+  type var_t;
+  type httpd_t;
+  class sock_file write;
+}
+
+#============= httpd_t ==============
+
+#!!!! WARNING: 'var_t' is a base type.
+allow httpd_t var_t:sock_file write;
