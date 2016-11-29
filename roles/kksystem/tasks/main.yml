@@ -47,5 +47,12 @@
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Install systemd service file
-  copy: src=kksystem.service dest=/etc/systemd/system/multi-user.target.wants/kksystem.service
+  copy: src=kksystem.service dest=/usr/lib/systemd/system/kksystem.service
+  become: yes
+- name: Reexecute systemd daemon manager (apparent SELinux problem)
+  shell: systemctl daemon-reexec
+  become: yes
+  changed_when: False
+- name: Enable and start systemd service
+  systemd: name=kksystem state=started enabled=yes
   become: yes
