@@ -1,7 +1,16 @@
 ---
+- name: Check if install should occur
+  stat: path=/etc/letsencrypt/.ansible_installed
+  register: check_ansible_installed
 - name: Sync letsencrypt data
   synchronize:
     src: "{{ letsencrypt_data_dir }}/"
     dest: /etc/letsencrypt
     delete: yes
     recursive: yes
+  when: check_ansible_installed.stat.exists == False
+- name: Create /etc/letsencrypt/.ansible_installed to prevent reinstall
+  file:
+    path: /etc/letsencrypt/.ansible_installed
+    state: touch
+  when: check_ansible_installed.stat.exists == False
