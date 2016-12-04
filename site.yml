@@ -1,7 +1,7 @@
 ---
 - include: base.yml
-- include: www.yml
 - include: letsencrypt.yml
+- include: www.yml
 - include: database.yml
 - include: mail.yml
 - include: haskell.yml

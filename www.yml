@@ -14,7 +14,15 @@
         - file_name: 'kksystem'
           server_name: 'kksystem.org www.kksystem.org'
           port: 80
+          redirect_https: yes
+        - file_name: 'kksystem-ssl'
+          server_name: 'kksystem.org www.kksystem.org'
+          port: '443 ssl'
           proxy_pass: 'http://unix:/var/server/kksystem/passenger.sock:/'
+          additional_params:
+            ssl_certificate: /etc/letsencrypt/live/www.kksystem.org/fullchain.pem
+            ssl_certificate_key: /etc/letsencrypt/live/www.kksystem.org/privkey.pem
+            include: /etc/letsencrypt/nginx.conf
         - file_name: 'davical'
           server_name: 'braden-walters.info www.braden-walters.info'
           port: 8443

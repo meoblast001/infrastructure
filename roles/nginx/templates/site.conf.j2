@@ -4,6 +4,10 @@ server {
     server_name {{ item.server_name }};
   {% endif %}
 
+  {% if item.redirect_https is defined and item.redirect_https %}
+    rewrite ^ https://$server_name$request_uri? permanent;
+  {% endif %}
+
   {% if item.root_path is defined %}
     location / {
       root {{ item.root_path }};
