@@ -1,0 +1,7 @@
+---
+- name: Sync letsencrypt data
+  synchronize:
+    src: "{{ letsencrypt_data_dir }}/"
+    dest: /etc/letsencrypt
+    delete: yes
+    recursive: yes

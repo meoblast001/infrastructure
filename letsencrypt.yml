@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+    - role: certbot
+      become: yes
+    - role: letsencrypt-data
+      letsencrypt_data_dir: '{{ playbook_dir }}/letsencrypt_data'
+      become: yes

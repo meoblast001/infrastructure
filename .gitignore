@@ -1,3 +1,4 @@
 *.retry
 host_vars/
 .vagrant/
+letsencrypt_data/

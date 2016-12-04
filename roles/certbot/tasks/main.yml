@@ -1,0 +1,10 @@
+---
+- name: Install certbot
+  dnf: name=certbot state=present
+- name: Install certbot renewal in crontab
+  cron: name=certbot-renewal state=present
+  args:
+    value: certbot renew --quiet
+    user: deploy
+    minute: 22
+    hour: 3,15
