@@ -42,3 +42,9 @@
     - name: Create /var/www directory
       file: path=/var/www state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t
       become: yes
+    - name: Enable httpd_can_network_connect_db in SELinux
+      seboolean:
+        name: httpd_can_network_connect_db
+        state: yes
+        persistent: yes
+      become: yes

@@ -1,3 +1,5 @@
 ---
 - name: Install libselinux-python
   dnf: name=libselinux-python state=present
+- name: Install libsemanage-python
+  dnf: name=libsemanage-python state=present
