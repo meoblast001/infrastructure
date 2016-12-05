@@ -36,6 +36,8 @@
       php_fpm_pools:
         - file_name: 'davical'
           host_name: 'braden-walters.info'
+          php_values:
+            include_path: '/usr/local/share/awl/inc'
   tasks:
     - name: Create /var/www directory
       file: path=/var/www state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t

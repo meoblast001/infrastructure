@@ -24,3 +24,9 @@ env[PATH] = /usr/local/bin:/usr/bin:/bin
 env[TMP] = /tmp
 env[TMPDIR] = /tmp
 env[TEMP] = /tmp
+
+{% if item.php_values is defined %}
+  {% for k, v in item.php_values.iteritems() %}
+    php_value[{{ k }}] = {{ v }}
+  {% endfor %}
+{% endif %}
