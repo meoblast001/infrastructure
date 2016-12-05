@@ -1,6 +1,15 @@
 ---
 - hosts: all
   roles:
+    - role: php-pgsql
+      become: yes
     - role: davical
       deploy_user: deploy
       postgres_user: postgres
+      database_owner: application
+      instances:
+        - domain_name: braden-walters.info
+          sysabbr: davical
+          system_name: DAViCal CalDAV Server
+          admin_email: 'public@braden-walters.info'
+          pg_connect: "dbname=davical user=application password={{ hostvars['default']['postgresql.passwords.application'] }} host=127.0.0.1"
