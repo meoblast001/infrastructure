@@ -24,3 +24,7 @@
   lineinfile: dest={{ gem_user_home.stdout }}/.bashrc line=PATH=$PATH:{{ gem_user_home.stdout }}/.gem/bin/
   become: yes
   become_user: "{{ gem_user }}"
+- name: Make gem bin setype bin_t
+  file: path={{ gem_user_home.stdout }}/.gem/bin state=directory owner={{ gem_user }} group={{ gem_user }} recurse=yes setype=bin_t
+  become: yes
+  become_user: "{{ gem_user }}"

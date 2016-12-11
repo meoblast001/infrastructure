@@ -29,6 +29,8 @@
     - "texlive-xetex"
     - "texlive-latex"
     - "texlive-babel"
+    - "texlive-babel-english"
+    - "texlive-babel-german"
     - "texlive-titlesec"
     - "texlive-moderncv"
     - "texlive-euenc"
@@ -47,6 +49,7 @@
     creates: /var/server/meosite/_site/index.html
   become: yes
   become_user: "{{ deploy_user }}"
+  when: False
 - name: Deploy static site
   command: dist/build/site/site deploy
   args:
@@ -54,6 +57,7 @@
     creates: /var/www/meosite/index.html
   become: yes
   become_user: "{{ deploy_user }}"
+  when: False
 - name: Install code-graph in crontab
   cron: name=code-graph state=present
   args:

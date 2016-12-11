@@ -3,3 +3,5 @@
   dnf: name=libselinux-python state=present
 - name: Install libsemanage-python
   dnf: name=libsemanage-python state=present
+- name: Install policycoreutils-python-utils
+  dnf: name=policycoreutils-python-utils state=present

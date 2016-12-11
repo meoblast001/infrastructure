@@ -1,0 +1,28 @@
+module passenger 1.0;
+
+require {
+  type tmp_t;
+  type unconfined_service_t;
+  type var_run_t;
+  type var_t;
+  type init_t;
+  type bin_t;
+  type nfsd_t;
+  class sock_file { unlink write };
+  class file { execute execute_no_trans open read unlink };
+  class unix_stream_socket create;
+}
+
+#============= init_t ==============
+allow init_t tmp_t:file unlink;
+allow init_t tmp_t:sock_file unlink;
+allow init_t unconfined_service_t:unix_stream_socket create;
+allow init_t bin_t:file { execute execute_no_trans open read };
+
+#!!!! WARNING: 'var_t' is a base type.
+allow init_t var_t:file { open read };
+
+#============= nfsd_t ==============
+
+#!!!! WARNING: 'var_run_t' is a base type.
+allow nfsd_t var_run_t:sock_file write;

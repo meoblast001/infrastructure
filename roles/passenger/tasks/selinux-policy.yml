@@ -1,0 +1,27 @@
+---
+- name: Query list of SELinux modules
+  shell: semodule -l
+  register: selinuxmodules
+  become: yes
+  always_run: yes
+  changed_when: False
+- name: Copy passenger.te to system
+  copy: src=passenger.te dest=/tmp/passenger.te
+  become: yes
+  when: "selinuxmodules.stdout.find('passenger') == -1"
+- name: Generate passenger.mod
+  shell: checkmodule -M -m -o passenger.mod passenger.te
+  args:
+    chdir: /tmp
+  become: yes
+  when: "selinuxmodules.stdout.find('passenger') == -1"
+- name: Generate passenger.pp
+  shell: semodule_package -o passenger.pp -m passenger.mod
+  args:
+    chdir: /tmp
+  become: yes
+  when: "selinuxmodules.stdout.find('passenger') == -1"
+- name: Install passenger with semodule
+  shell: semodule -i /tmp/passenger.pp
+  become: yes
+  when: "selinuxmodules.stdout.find('passenger') == -1"

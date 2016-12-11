@@ -1,0 +1,8 @@
+---
+- name: Install passenger
+  shell: gem install passenger
+  args:
+    creates: /home/deploy/.gem/bin/passenger
+  become: yes
+  become_user: "{{ deploy_user }}"
+- include: selinux-policy.yml
