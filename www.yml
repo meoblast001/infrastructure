@@ -10,6 +10,14 @@
         - file_name: 'meosite'
           server_name: 'braden-walters.info www.braden-walters.info'
           port: 80
+          redirect_https: yes
+        - file_name: 'meosite-ssl'
+          server_name: 'braden-walters.info www.braden-walters.info'
+          port: '443 ssl'
+          additional_params:
+            ssl_certificate: /etc/letsencrypt/live/braden-walters.info/fullchain.pem
+            ssl_certificate_key: /etc/letsencrypt/live/braden-walters.info/privkey.pem
+            include: /etc/letsencrypt/nginx.conf
           root_path: '/var/www/meosite'
         - file_name: 'kksystem'
           server_name: 'kksystem.org www.kksystem.org'
