@@ -7,9 +7,9 @@ Type=forking
 User=deploy
 Group=deploy
 WorkingDirectory=/var/server/kksystem
-PIDFile=/var/server/kksystem/passenger.pid
-ExecStart=/home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger start -R /var/server/kksystem/config.ru --daemonize --socket /var/server/kksystem/passenger.sock --pid-file /var/server/kksystem/passenger.pid --log-file /var/server/kksystem/log/passenger.log --environment production
-ExecStop=/home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger stop --pid-file /var/server/kksystem/passenger.pid
+PIDFile=/var/run/kksystem/passenger.pid
+ExecStart=/home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger start -R /var/server/kksystem/config.ru --daemonize --socket /var/server/kksystem/passenger.sock --pid-file /var/run/kksystem/passenger.pid --log-file /var/server/kksystem/log/passenger.log --environment production
+ExecStop=/home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger stop --pid-file /var/run/kksystem/passenger.pid
 ExecReload=/home/deploy/.gem/bin/bundle exec /home/deploy/gem/bin/passenger-config restart-app /var/server/kksystem
 PrivateTmp=yes
 

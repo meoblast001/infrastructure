@@ -1,4 +1,4 @@
-module passenger 1.0;
+module passenger_systemd 1.0;
 
 require {
   type tmp_t;

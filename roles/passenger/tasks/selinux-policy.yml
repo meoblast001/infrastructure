@@ -5,23 +5,27 @@
   become: yes
   always_run: yes
   changed_when: False
-- name: Copy passenger.te to system
-  copy: src=passenger.te dest=/tmp/passenger.te
+- name: Copy passenger_systemd.te to system
+  copy: src=passenger_systemd.te dest=/tmp/passenger_systemd.te
   become: yes
-  when: "selinuxmodules.stdout.find('passenger') == -1"
-- name: Generate passenger.mod
-  shell: checkmodule -M -m -o passenger.mod passenger.te
+  when: "selinuxmodules.stdout.find('passenger_systemd') == -1"
+- name: Generate passenger_systemd.mod
+  shell: checkmodule -M -m -o passenger_systemd.mod passenger_systemd.te
   args:
     chdir: /tmp
   become: yes
-  when: "selinuxmodules.stdout.find('passenger') == -1"
+  when: "selinuxmodules.stdout.find('passenger_systemd') == -1"
 - name: Generate passenger.pp
-  shell: semodule_package -o passenger.pp -m passenger.mod
+  shell: semodule_package -o passenger_systemd.pp -m passenger_systemd.mod
   args:
     chdir: /tmp
   become: yes
-  when: "selinuxmodules.stdout.find('passenger') == -1"
+  when: "selinuxmodules.stdout.find('passenger_systemd') == -1"
 - name: Install passenger with semodule
-  shell: semodule -i /tmp/passenger.pp
+  shell: semodule -i /tmp/passenger_systemd.pp
   become: yes
-  when: "selinuxmodules.stdout.find('passenger') == -1"
+  when: "selinuxmodules.stdout.find('passenger_systemd') == -1"
+- name: Reload policy
+  shell: semodule --reload
+  become: yes
+  when: "selinuxmodules.stdout.find('passenger_systemd') == -1"

@@ -46,6 +46,9 @@
     chdir: /var/server/kksystem
   become: yes
   become_user: "{{ deploy_user }}"
+- name: Create directory /var/run/kksystem
+  file: path=/var/run/kksystem state=directory owner=deploy group=deploy
+  become: yes
 - name: Install systemd service file
   copy: src=kksystem.service dest=/usr/lib/systemd/system/kksystem.service
   become: yes

@@ -20,3 +20,7 @@
 - name: Install nginx_socket_proxy_pass with semodule
   shell: semodule -i /tmp/nginx_socket_proxy_pass.pp
   when: "selinuxmodules.stdout.find('nginx_socket_proxy_pass') == -1"
+- name: Reload policy
+  shell: semodule --reload
+  become: yes
+  when: "selinuxmodules.stdout.find('nginx_socket_proxy_pass') == -1"
