@@ -1,4 +1,14 @@
 ---
+- name: Check if Git repository exists
+  stat: path=/var/server/kksystem/.git
+  register: repo_exists
+- name: Reset changes to Gemfile
+  shell: git checkout -- Gemfile
+  args:
+    chdir: /var/server/kksystem
+  become: yes
+  become_user: "{{ deploy_user }}"
+  when: repo_exists.stat.exists == True
 - name: Fetch over Git
   git: repo=https://github.com/meoblast001/kksystem.git dest=/var/server/kksystem force=yes
   become: yes
