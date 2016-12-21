@@ -5,10 +5,10 @@
       become: yes
       pg_users:
         - username: deploy
-          password: "{{ hostvars['default']['postgresql.passwords.deploy'] }}"
+          password: "{{ hostvars[inventory_hostname]['postgresql.passwords.deploy'] }}"
           role_attr_flags: SUPERUSER
         - username: application
-          password: "{{ hostvars['default']['postgresql.passwords.application'] }}"
+          password: "{{ hostvars[inventory_hostname]['postgresql.passwords.application'] }}"
           role_attr_flags: LOGIN
       pg_databases:
         - database: kksystem

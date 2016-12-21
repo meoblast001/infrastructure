@@ -1,4 +1,5 @@
 *.retry
 host_vars/
+group_vars/
 .vagrant/
 letsencrypt_data/

@@ -15,7 +15,7 @@
       group: name=deploy state=present
       become: yes
     - name: Create deploy user
-      user: name=deploy shell=/bin/bash groups=deploy password={{ hostvars['default']['unix.passwords.deploy'] }} state=present
+      user: name=deploy shell=/bin/bash groups=deploy password={{ hostvars[inventory_hostname]['unix.passwords.deploy'] }} state=present
       become: yes
     - name: Create directory for server applications
       file: path=/var/server owner=deploy group=deploy state=directory

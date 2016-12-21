@@ -4,10 +4,10 @@
     - role: kksystem
       deploy_user: deploy
       config:
-        secret_key_base: "{{ hostvars['default']['kksystem.secret_key_base'] }}"
+        secret_key_base: "{{ hostvars[inventory_hostname]['kksystem.secret_key_base'] }}"
         mailer_sender: noreply@kksystem.org
         default_url: kksystem.org
       database:
         name: kksystem
         username: application
-        password: "{{ hostvars['default']['postgresql.passwords.application'] }}"
+        password: "{{ hostvars[inventory_hostname]['postgresql.passwords.application'] }}"

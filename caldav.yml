@@ -12,4 +12,4 @@
           sysabbr: davical
           system_name: DAViCal CalDAV Server
           admin_email: 'public@braden-walters.info'
-          pg_connect: "dbname=davical user=application password={{ hostvars['default']['postgresql.passwords.application'] }} host=127.0.0.1"
+          pg_connect: "dbname=davical user=application password={{ hostvars[inventory_hostname]['postgresql.passwords.application'] }} host=127.0.0.1"
