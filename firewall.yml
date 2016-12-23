@@ -1,0 +1,21 @@
+---
+- hosts: all
+  tasks:
+    - name: Install python-firewall
+      dnf: name=python-firewall state=present
+      become: yes
+    - name: Enable ports
+      firewalld:
+        port: '{{ item }}'
+        permanent: yes
+        state: enabled
+      with_items:
+        - 80/tcp
+        - 443/tcp
+        - 8443/tcp
+      become: yes
+      register: enable_ports
+    - name: Restart firewalld
+      systemd: name=firewalld state=restarted
+      become: yes
+      when: enable_ports.changed
