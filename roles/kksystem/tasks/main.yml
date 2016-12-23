@@ -20,6 +20,9 @@
     - "mysql"
   become: yes
   become_user: "{{ deploy_user }}"
+- name: Install nodejs
+  dnf: name=nodejs state=present
+  become: yes
 - name: Add passenger to Gemfile
   lineinfile: line="gem 'passenger'" dest=/var/server/kksystem/Gemfile state=present
   become: yes
