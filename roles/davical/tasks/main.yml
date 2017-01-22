@@ -1,13 +1,23 @@
 ---
-- name: Install davical 0.9.5 from Git
-  git: dest=/usr/local/share/davical repo=https://gitlab.com/davical-project/davical.git version=0.9.5
+- name: Check if Git repository for davical exists
+  stat: path=/usr/local/share/davical/.git
+  register: davical_repo_exists
+  changed_when: False
+- name: Install davical from Git
+  git: dest=/usr/local/share/davical repo=https://gitlab.com/davical-project/davical.git
   become: yes
+  when: davical_repo_exists.stat.exists == False
 - name: Make /usr/local/share/davical owned by deploy and setype httpd_sys_content_t
   file: path=/usr/local/share/davical state=directory owner=deploy group=deploy recurse=yes setype=httpd_sys_content_t
   become: yes
+- name: Check if Git repository for awl exists
+  stat: path=/usr/local/share/awl/.git
+  register: awl_repo_exists
+  changed_when: False
 - name: Install awl for davical from Git
-  git: dest=/usr/local/share/awl repo=https://gitlab.com/davical-project/awl.git version=r0.56
+  git: dest=/usr/local/share/awl repo=https://gitlab.com/davical-project/awl.git
   become: yes
+  when: awl_repo_exists.stat.exists == False
 - name: Determine whether davical database exists
   shell: psql -lqt | cut -d \| -f 1 | grep -qw davical
   changed_when: False
@@ -31,6 +41,11 @@
   become_user: "{{ postgres_user }}"
 - name: Give ownership of davical database to application user
   shell: psql -c "ALTER DATABASE davical OWNER TO {{ database_owner }}"
+  when: db_owned.rc == 1
+  become: yes
+  become_user: "{{ postgres_user }}"
+- name: Give ownership of davical database contents to application user
+  shell: psql davical -c "REASSIGN OWNED BY davical_dba TO {{ database_owner }}"
   when: db_owned.rc == 1
   become: yes
   become_user: "{{ postgres_user }}"
