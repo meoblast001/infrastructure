@@ -2,17 +2,12 @@
 - name: Check if Git repository exists
   stat: path=/var/server/kksystem/.git
   register: repo_exists
-- name: Reset changes to Gemfile
-  shell: git checkout -- Gemfile
-  args:
-    chdir: /var/server/kksystem
-  become: yes
-  become_user: "{{ deploy_user }}"
-  when: repo_exists.stat.exists == True
+  changed_when: False
 - name: Fetch over Git
   git: repo=https://github.com/meoblast001/kksystem.git dest=/var/server/kksystem force=yes
   become: yes
   become_user: "{{ deploy_user }}"
+  when: repo_exists.stat.exists == False
 - name: Remove references to unused gems from Gemfile
   lineinfile: line="gem '{{ item }}'" dest=/var/server/kksystem/Gemfile state=absent
   with_items:
