@@ -33,10 +33,14 @@
             include: /etc/letsencrypt/nginx.conf
         - file_name: 'davical'
           server_name: 'braden-walters.info www.braden-walters.info'
-          port: 8443
+          port: '8443 ssl'
           root_path: '/usr/local/share/davical/htdocs'
           index: index.php
           has_php: yes
+          additional_params:
+            ssl_certificate: /etc/letsencrypt/live/braden-walters.info/fullchain.pem
+            ssl_certificate_key: /etc/letsencrypt/live/braden-walters.info/privkey.pem
+            include: /etc/letsencrypt/nginx.conf
     - role: php
       become: yes
     - role: php-fpm-pools
