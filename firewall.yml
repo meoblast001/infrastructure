@@ -2,7 +2,10 @@
 - hosts: all
   tasks:
     - name: Install python-firewall
-      dnf: name=python-firewall state=present
+      yum: name=python-firewall state=present
+      become: yes
+    - name: Start firewalld
+      systemd: name=firewalld state=started
       become: yes
     - name: Enable ports
       firewalld:

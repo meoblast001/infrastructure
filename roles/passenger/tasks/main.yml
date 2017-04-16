@@ -1,6 +1,6 @@
 ---
 - name: Install passenger
-  shell: gem install passenger
+  shell: "source ~/.bashrc && gem install passenger"
   args:
     creates: /home/deploy/.gem/bin/passenger
   become: yes

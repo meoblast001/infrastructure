@@ -1,7 +1,7 @@
 ---
 - name: Install libselinux-python
-  dnf: name=libselinux-python state=present
+  yum: name=libselinux-python state=present
 - name: Install libsemanage-python
-  dnf: name=libsemanage-python state=present
+  yum: name=libsemanage-python state=present
 - name: Install policycoreutils-python-utils
-  dnf: name=policycoreutils-python-utils state=present
+  yum: name=policycoreutils-python state=present

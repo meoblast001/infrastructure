@@ -1,6 +1,6 @@
 ---
 - name: Install nginx
-  dnf: name=nginx state=present
+  yum: name=nginx state=present
 - name: Configure nginx
   copy: src=nginx.conf dest=/etc/nginx/nginx.conf
 - name: Configure site

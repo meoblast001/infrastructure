@@ -1,23 +1,27 @@
 ---
-- name: Install ruby
-  dnf: name=ruby state=present
+- name: Install rh-ruby22
+  yum: name=rh-ruby22 state=present
   become: yes
-- name: Install ruby-devel
-  dnf: name=ruby-devel state=present
-  become: yes
-- name: Install rubygems
-  dnf: name=rubygems state=present
+- name: Install rh-ruby22-ruby-devel
+  yum: name=rh-ruby22-ruby-devel state=present
   become: yes
 - name: Determine the home directory of user {{ gem_user }}
   shell: "getent passwd {{ gem_user }} | cut -d: -f6"
   register: gem_user_home
   changed_when: False
+- name: Install enable script for Ruby 2.2 in bashrc
+  lineinfile:
+    dest: "{{ gem_user_home.stdout }}/.bashrc"
+    line: "source /opt/rh/rh-ruby22/enable"
+  become: yes
 - name: Create {{ gem_user_home.stdout }}/.gemrc file
   template: src=gemrc.j2 dest={{ gem_user_home.stdout }}/.gemrc
   become: yes
   become_user: "{{ gem_user }}"
 - name: Install bundler
-  shell: gem install bundler creates={{ gem_user_home.stdout }}/.gem/bin/bundle
+  shell: "source ~/.bashrc && gem install bundler"
+  args:
+    creates: "{{ gem_user_home.stdout }}/.gem/bin/bundle"
   become: yes
   become_user: "{{ gem_user }}"
 - name: Add Ruby bin to PATH

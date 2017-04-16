@@ -16,14 +16,16 @@
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Install nodejs
-  dnf: name=nodejs state=present
+  yum: name=nodejs state=present
   become: yes
 - name: Add passenger to Gemfile
   lineinfile: line="gem 'passenger'" dest=/var/server/kksystem/Gemfile state=present
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Bundle install
-  bundler: state=present executable=~/.gem/bin/bundle chdir=/var/server/kksystem
+  shell: "source ~/.bashrc && ~/.gem/bin/bundle"
+  args:
+    chdir: /var/server/kksystem
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Install user_config.rb
@@ -35,25 +37,28 @@
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Migrate database
-  shell: RAILS_ENV=production bin/rake db:migrate
+  shell: "source ~/.bashrc && RAILS_ENV=production bin/rake db:migrate"
   args:
     chdir: /var/server/kksystem
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Install simple_form
-  shell: RAILS_ENV=production bin/rails generate simple_form:install
+  shell: "source ~/.bashrc && RAILS_ENV=production bin/rails generate simple_form:install"
   args:
     creates: /var/server/kksystem/config/initializers/simple_form.rb
     chdir: /var/server/kksystem
   become: yes
   become_user: "{{ deploy_user }}"
 - name: Precompile assets
-  shell: RAILS_ENV=production bin/rake assets:precompile
+  shell: "source ~/.bashrc && RAILS_ENV=production bin/rake assets:precompile"
   args:
     creates: /var/server/kksystem/public/assets
     chdir: /var/server/kksystem
   become: yes
   become_user: "{{ deploy_user }}"
+- name: Install kksystemctl.sh
+  copy: src=kksystemctl.sh dest=/var/server/kksystemctl.sh owner=deploy group=deploy mode=755
+  become: yes
 - name: Create directory /var/run/kksystem
   file: path=/var/run/kksystem state=directory owner=deploy group=deploy
   become: yes

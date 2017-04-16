@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.box = 'fedora/25-cloud-base'
+  config.vm.box = 'centos/7'
 
   config.vm.provider :libvirt do |domain|
     domain.memory = 2048
@@ -15,8 +15,7 @@ Vagrant.configure(2) do |config|
   config.vm.network 'private_network', type: 'dhcp'
 
   config.vm.provision 'shell', :inline => <<-SHELL
-    ln -s /etc/dnf/dnf.conf /etc/yum.conf
-    dnf install -y python2 python2-dnf
+    yum install -y python2
     grep -q -F "vagrant ALL=(ALL) NOPASSWD: ALL" || echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
   SHELL
 

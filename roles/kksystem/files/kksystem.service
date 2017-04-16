@@ -8,9 +8,9 @@ User=deploy
 Group=deploy
 WorkingDirectory=/var/server/kksystem
 PIDFile=/var/run/kksystem/passenger.pid
-ExecStart=/home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger start -R /var/server/kksystem/config.ru --daemonize --socket /var/server/kksystem/passenger.sock --pid-file /var/run/kksystem/passenger.pid --log-file /var/server/kksystem/log/passenger.log --environment production
-ExecStop=/home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger stop --pid-file /var/run/kksystem/passenger.pid
-ExecReload=/home/deploy/.gem/bin/bundle exec /home/deploy/gem/bin/passenger-config restart-app /var/server/kksystem
+ExecStart=/var/server/kksystemctl.sh start
+ExecStop=/var/server/kksystemctl.sh stop
+ExecReload=/var/server/kksystemctl.sh restart
 PrivateTmp=yes
 
 [Install]

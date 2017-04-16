@@ -1,9 +1,9 @@
 ---
 - name: Install redhat-rpm-config
-  dnf: name=redhat-rpm-config state=present
+  yum: name=redhat-rpm-config state=present
 - name: Install zlib-devel
-  dnf: name=zlib-devel state=present
+  yum: name=zlib-devel state=present
 - name: Install libxml2-devel
-  dnf: name=libxml2-devel state=present
+  yum: name=libxml2-devel state=present
 - name: Install libxslt-devel
-  dnf: name=libxslt-devel state=present
+  yum: name=libxslt-devel state=present

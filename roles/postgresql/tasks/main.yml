@@ -1,11 +1,11 @@
 ---
 - name: Install PostgreSQL Server
-  dnf: name={{ item }} state=present
+  yum: name={{ item }} state=present
   with_items:
     - postgresql-server
     - postgresql-devel
 - name: Install psycopg2 for PostgreSQL functions in Ansible
-  dnf: name=python-psycopg2 state=present
+  yum: name=python-psycopg2 state=present
 - name: Initialise database
   command: postgresql-setup initdb creates=/var/lib/pgsql/data/pg_hba.conf
 - name: Install pg_hba.conf
