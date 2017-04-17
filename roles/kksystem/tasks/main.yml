@@ -56,19 +56,3 @@
     chdir: /var/server/kksystem
   become: yes
   become_user: "{{ deploy_user }}"
-- name: Install kksystemctl.sh
-  copy: src=kksystemctl.sh dest=/var/server/kksystemctl.sh owner=deploy group=deploy mode=755
-  become: yes
-- name: Create directory /var/run/kksystem
-  file: path=/var/run/kksystem state=directory owner=deploy group=deploy
-  become: yes
-- name: Install systemd service file
-  copy: src=kksystem.service dest=/usr/lib/systemd/system/kksystem.service
-  become: yes
-- name: Reexecute systemd daemon manager (apparent SELinux problem)
-  shell: systemctl daemon-reexec
-  become: yes
-  changed_when: False
-- name: Enable and start systemd service
-  systemd: name=kksystem state=started enabled=yes
-  become: yes

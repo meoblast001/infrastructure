@@ -1,0 +1,17 @@
+[Unit]
+Description={{ service_name }} as Standalone Passenger Server
+After=network.target
+
+[Service]
+Type=forking
+User={{ deploy_user }}
+Group={{ deploy_user }}
+WorkingDirectory={{ working_directory }}
+PIDFile=/var/run/{{ service_name }}/passenger.pid
+ExecStart={{ ctl_script }} start
+ExecStop={{ ctl_script }} stop
+ExecReload={{ ctl_script }} restart
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

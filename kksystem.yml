@@ -11,3 +11,11 @@
         name: kksystem
         username: application
         password: "{{ hostvars[inventory_hostname]['postgresql.passwords.application'] }}"
+    - role: rails-application
+      service_name: kksystem
+      working_directory: /var/server/kksystem
+      config_file: /var/server/kksystem/config.ru
+      socket: /var/server/kksystem/passenger.sock
+      log_file: /var/server/kksystem/log/passenger.log
+      ctl_script: /var/server/kksystemctl.sh
+      deploy_user: deploy

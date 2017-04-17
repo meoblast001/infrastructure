@@ -1,0 +1,15 @@
+#!/bin/bash
+MODE=$1
+PID_FILE=/var/run/{{ service_name }}/passenger.pid
+source /opt/rh/rh-ruby22/enable
+case "$1" in
+  start)
+    /home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger start -R {{ config_file }} --daemonize --socket {{ socket }} --pid-file $PID_FILE --log-file {{ log_file }} --environment production
+    ;;
+  stop)
+    /home/deploy/.gem/bin/bundle exec /home/deploy/.gem/bin/passenger stop --pid-file $PID_FILE
+    ;;
+  restart)
+    /home/deploy/.gem/bin/bundle exec /home/deploy/gem/bin/passenger-config restart-app {{ working_directory }}
+    ;;
+esac
