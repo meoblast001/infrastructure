@@ -13,8 +13,14 @@
       pg_databases:
         - database: kksystem
           owner: application
+        - database: redmine
+          owner: application
       pg_privileges:
         - database: kksystem
+          objs: ALL_IN_SCHEMA
+          username: deploy,application
+          privileges: ALL
+        - database: redmine
           objs: ALL_IN_SCHEMA
           username: deploy,application
           privileges: ALL

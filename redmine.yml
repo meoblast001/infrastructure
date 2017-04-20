@@ -1,0 +1,23 @@
+---
+- hosts: all
+  tasks:
+    - name: Create directory /var/server/redmine/files to save uploaded files
+      file: path=/var/server/redmine/files state=directory owner=deploy
+      become: yes
+  roles:
+    - role: redmine
+      configuration:
+        attachment_storage_path: /var/server/redmine/files/
+      database:
+        name: redmine
+        username: application
+        password: "{{ hostvars[inventory_hostname]['postgresql.passwords.application'] }}"
+      deploy_user: deploy
+    - role: rails-application
+      service_name: redmine
+      working_directory: /var/server/redmine/current
+      config_file: /var/server/redmine/current/config.ru
+      socket: /var/server/redmine/current/passenger.sock
+      log_file: /var/server/redmine/current/log/passenger.log
+      ctl_script: /var/server/redminectl.sh
+      deploy_user: deploy

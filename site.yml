@@ -8,5 +8,6 @@
 - include: haskell.yml
 - include: ruby.yml
 - include: personal-site.yml
+- include: redmine.yml
 - include: kksystem.yml
 - include: caldav.yml

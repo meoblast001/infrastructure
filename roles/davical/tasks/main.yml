@@ -25,11 +25,12 @@
   register: db_exists
   become: yes
   become_user: "{{ postgres_user }}"
-- name: Install Perl packages (perl-DBI, perl-YAML)
+- name: Install Perl packages (perl-DBI, perl-YAML, perl-DBD-Pg)
   yum: name={{ item }} state=present
   with_items:
     - "perl-DBI"
     - "perl-YAML"
+    - "perl-DBD-Pg"
   become: yes
 - name: Create database for davical
   shell: ./create-database.sh

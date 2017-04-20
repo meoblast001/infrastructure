@@ -1,0 +1,40 @@
+---
+- name: Create directory /var/server/redmine
+  file: path=/var/server/redmine state=directory
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Download and unpack Redmine 3.3.3
+  unarchive: src=http://www.redmine.org/releases/redmine-3.3.3.tar.gz dest=/var/server/redmine remote_src=True
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Create symlink to current Redmine version
+  file: src=/var/server/redmine/redmine-3.3.3 dest=/var/server/redmine/current state=link
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Install configuration.yml
+  template: src=configuration.yml.j2 dest=/var/server/redmine/current/config/configuration.yml
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Install database.yml
+  template: src=database.yml.j2 dest=/var/server/redmine/current/config/database.yml
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Create Gemfile.local
+  file: dest=/var/server/redmine/current/Gemfile.local state=touch owner={{ deploy_user }}
+  become: yes
+- name: Gemfile.local must include passenger
+  lineinfile: dest=/var/server/redmine/current/Gemfile.local line="gem 'passenger'"
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Bundle install
+  shell: "source ~/.bashrc && ~/.gem/bin/bundle --without development test rmagick"
+  args:
+    chdir: /var/server/redmine/current
+  become: yes
+  become_user: "{{ deploy_user }}"
+- name: Migrate database
+  shell: "source ~/.bashrc && RAILS_ENV=production bin/rake db:migrate"
+  args:
+    chdir: /var/server/redmine/current
+  become: yes
+  become_user: "{{ deploy_user }}"
