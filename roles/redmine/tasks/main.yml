@@ -38,3 +38,9 @@
     chdir: /var/server/redmine/current
   become: yes
   become_user: "{{ deploy_user }}"
+- name: Generate secret token
+  shell: "source ~/.bashrc && ~/.gem/bin/bundle exec rake generate_secret_token"
+  args:
+    chdir: /var/server/redmine/current
+  become: yes
+  become_user: "{{ deploy_user }}"
