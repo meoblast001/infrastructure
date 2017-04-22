@@ -20,6 +20,9 @@
     - name: Create directory for server applications
       file: path=/var/server owner=deploy group=deploy state=directory
       become: yes
+    - name: Install yum-utils
+      yum: name=yum-utils state=present
+      become: yes
     - name: Install EPEL (epel-release)
       yum: name=epel-release state=present
       become: yes
