@@ -42,5 +42,6 @@
   shell: "source ~/.bashrc && ~/.gem/bin/bundle exec rake generate_secret_token"
   args:
     chdir: /var/server/redmine/current
+    creates: /var/server/redmine/current/config/initializers/secret_token.rb
   become: yes
   become_user: "{{ deploy_user }}"

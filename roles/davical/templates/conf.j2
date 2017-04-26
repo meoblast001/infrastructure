@@ -3,4 +3,4 @@ $c->domain_name = '{{ item['domain_name'] }}';
 $c->sysabbr = '{{ item['sysabbr'] }}';
 $c->system_name = '{{ item['system_name'] }}';
 $c->admin_email = '{{ item['admin_email'] }}';
-$c->pg_connect[] = '{{ item['pg_connect'] }}';
+$c->db_connect[] = array( 'dsn' => 'pgsql:dbname={{ item['postgres']['dbname'] }}', 'dbuser' => '{{ item['postgres']['dbuser'] }}', 'dbpass' => '{{ item['postgres']['dbpass'] }}' );

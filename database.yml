@@ -10,11 +10,17 @@
         - username: application
           password: "{{ hostvars[inventory_hostname]['postgresql.passwords.application'] }}"
           role_attr_flags: LOGIN
+        - username: davical_dba
+          password: "{{ hostvars[inventory_hostname]['postgresql.passwords.davical_dba'] }}"
+          role_attr_flags: LOGIN
+        - username: davical_app
+          password: "{{ hostvars[inventory_hostname]['postgresql.passwords.davical_app'] }}"
+          role_attr_flags: LOGIN
       pg_databases:
         - database: kksystem
-          owner: application
+          owner: deploy
         - database: redmine
-          owner: application
+          owner: deploy
       pg_privileges:
         - database: kksystem
           objs: ALL_IN_SCHEMA
@@ -24,3 +30,12 @@
           objs: ALL_IN_SCHEMA
           username: deploy,application
           privileges: ALL
+      pg_hba_rules:
+        - type: local
+          database: davical
+          user: davical_dba
+          method: trust
+        - type: local
+          database: davical
+          user: davical_app
+          method: trust

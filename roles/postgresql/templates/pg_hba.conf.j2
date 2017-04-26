@@ -1,5 +1,9 @@
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 
+{% for rule in pg_hba_rules %}
+{{ rule.type }} {{ rule.database }} {{ rule.user }} {% if rule.address is defined %}{{ rule.address }}{% endif %} {{ rule.method }}
+{% endfor %}
+
 # "local" is for Unix domain socket connections only
 local   all             all                                     peer
 # IPv4 local connections:

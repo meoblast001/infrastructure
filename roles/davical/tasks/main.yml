@@ -39,23 +39,6 @@
   when: db_exists.rc == 1
   become: yes
   become_user: "{{ postgres_user }}"
-- name: Determine if davical database is owned by application user
-  shell: psql -lqt | grep -qw '^\\s*davical' | cut -d \| -f 2 | grep -qw {{ database_owner }}
-  changed_when: False
-  failed_when: False
-  register: db_owned
-  become: yes
-  become_user: "{{ postgres_user }}"
-- name: Give ownership of davical database to application user
-  shell: psql -c "ALTER DATABASE davical OWNER TO {{ database_owner }}"
-  when: db_owned.rc == 1
-  become: yes
-  become_user: "{{ postgres_user }}"
-- name: Give ownership of davical database contents to application user
-  shell: psql davical -c "REASSIGN OWNED BY davical_dba TO {{ database_owner }}"
-  when: db_owned.rc == 1
-  become: yes
-  become_user: "{{ postgres_user }}"
 - name: Create /etc/davical
   file: name=/etc/davical state=directory
   become: yes
