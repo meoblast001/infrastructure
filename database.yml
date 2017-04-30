@@ -23,10 +23,29 @@
           owner: deploy
       pg_privileges:
         - database: kksystem
+          username: deploy,application
+          privileges: ALL
+        - database: redmine
+          username: deploy,application
+          privileges: ALL
+      pg_privileges_objs:
+        - database: kksystem
+          type: table
+          objs: ALL_IN_SCHEMA
+          username: deploy,application
+          privileges: ALL
+        - database: kksystem
+          type: sequence
           objs: ALL_IN_SCHEMA
           username: deploy,application
           privileges: ALL
         - database: redmine
+          type: table
+          objs: ALL_IN_SCHEMA
+          username: deploy,application
+          privileges: ALL
+        - database: redmine
+          type: sequence
           objs: ALL_IN_SCHEMA
           username: deploy,application
           privileges: ALL

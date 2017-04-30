@@ -28,7 +28,12 @@
   become: true
   become_user: postgres
 - name: Update privileges of databases
-  postgresql_privs: db={{ item['database'] }} privs={{ item['privileges'] }} roles={{ item['username'] }} objs={{ item['objs'] }} state=present
+  postgresql_privs: db={{ item['database'] }} type=database privs={{ item['privileges'] }} roles={{ item['username'] }} state=present
   with_items: '{{ pg_privileges }}'
+  become: true
+  become_user: postgres
+- name: Update privileges of database objects
+  postgresql_privs: db={{ item['database'] }} type={{ item['type'] }} privs={{ item['privileges'] }} roles={{ item['username'] }} objs={{ item['objs'] }} state=present
+  with_items: '{{ pg_privileges_objs }}'
   become: true
   become_user: postgres
