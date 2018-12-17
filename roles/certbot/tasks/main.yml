@@ -1,10 +1,23 @@
 ---
 - name: Install certbot
   yum: name=certbot state=present
+- name: Set permissions and owner of letsencrypt directory
+  file:
+    dest: "{{ item }}"
+    owner: deploy
+    group: deploy
+    mode:  u=rwX,g=rX,o=X
+    recurse: yes
+  with_items:
+    - /var/log/letsencrypt
+    - /var/lib/letsencrypt
+- name: Create web directory /var/www/letsencrypt
+  file: path=/var/www/letsencrypt state=directory owner=deploy
+  become: yes
 - name: Install certbot renewal in crontab
   cron: name=certbot-renewal state=present
   args:
-    value: certbot renew --quiet
+    value: "certbot renew --quiet --webroot-path /var/www/letsencrypt"
     user: deploy
     minute: 22
     hour: 3,15

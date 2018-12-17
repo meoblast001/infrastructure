@@ -16,3 +16,10 @@
   when: check_ansible_installed.stat.exists == False
 - name: Install /etc/letsencrypt/nginx.conf
   copy: src=nginx.conf dest=/etc/letsencrypt/nginx.conf
+- name: Set permissions and owner of letsencrypt directory
+  file:
+    dest: /etc/letsencrypt
+    owner: deploy
+    group: deploy
+    mode:  u=rwX,g=rX,o=X
+    recurse: yes

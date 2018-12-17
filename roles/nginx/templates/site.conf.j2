@@ -8,6 +8,11 @@ server {
     rewrite ^ https://$server_name$request_uri? permanent;
   {% endif %}
 
+  location ^~ /.well-known/acme-challenge/ {
+    default_type "text/plain";
+    root /var/www/letsencrypt;
+  }
+
   {% if item.root_path is defined %}
     location / {
       root {{ item.root_path }};
