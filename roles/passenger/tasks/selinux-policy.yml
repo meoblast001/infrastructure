@@ -3,7 +3,7 @@
   shell: semodule -l
   register: selinuxmodules
   become: yes
-  always_run: yes
+  check_mode: no
   changed_when: False
 - name: Copy passenger_systemd.te to system
   copy: src=passenger_systemd.te dest=/tmp/passenger_systemd.te

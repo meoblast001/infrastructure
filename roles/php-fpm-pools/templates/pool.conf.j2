@@ -26,7 +26,7 @@ env[TMPDIR] = /tmp
 env[TEMP] = /tmp
 
 {% if item.php_values is defined %}
-  {% for k, v in item.php_values.iteritems() %}
+  {% for k, v in item.php_values.items() %}
     php_value[{{ k }}] = {{ v }}
   {% endfor %}
 {% endif %}

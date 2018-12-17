@@ -44,7 +44,7 @@ server {
   {% endif %}
 
   {% if item.additional_params is defined %}
-    {% for k, v in item.additional_params.iteritems() %}
+    {% for k, v in item.additional_params.items() %}
       {{ k }} {{ v }};
     {% endfor %}
   {% endif %}

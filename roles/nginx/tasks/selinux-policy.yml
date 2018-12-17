@@ -2,7 +2,7 @@
 - name: Query list of SELinux modules
   shell: semodule -l
   register: selinuxmodules
-  always_run: yes
+  check_mode: no
   changed_when: False
 - name: Copy nginx_socket_proxy_pass.te to system
   copy: src=nginx_socket_proxy_pass.te dest=/tmp/nginx_socket_proxy_pass.te
