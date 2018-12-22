@@ -17,7 +17,9 @@
 - name: Install certbot renewal in crontab
   cron: name=certbot-renewal state=present
   args:
-    value: "certbot renew --quiet --webroot-path /var/www/letsencrypt"
+    value: >
+      certbot renew --quiet --webroot-path /var/www/letsencrypt
+      --post-hook 'nginx -s reload'
     user: deploy
     minute: 22
     hour: 3,15
