@@ -13,6 +13,7 @@
   with_items:
     - /var/lib/nginx/
     - /var/lib/nginx/tmp/
+    - /var/log/nginx/
   become: yes
 - name: Start nginx service
   service: name=nginx state=restarted enabled=yes

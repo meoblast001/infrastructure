@@ -19,30 +19,6 @@
             ssl_certificate_key: /etc/letsencrypt/live/braden-walters.info/privkey.pem
             include: /etc/letsencrypt/nginx.conf
           root_path: '/var/www/meosite'
-        - file_name: 'kksystem'
-          server_name: 'kksystem.org www.kksystem.org'
-          port: 80
-          redirect_https: yes
-        - file_name: 'kksystem-ssl'
-          server_name: 'kksystem.org www.kksystem.org'
-          port: '443 ssl'
-          proxy_pass: 'http://unix:/var/server/kksystem/passenger.sock:/'
-          additional_params:
-            ssl_certificate: /etc/letsencrypt/live/www.kksystem.org/fullchain.pem
-            ssl_certificate_key: /etc/letsencrypt/live/www.kksystem.org/privkey.pem
-            include: /etc/letsencrypt/nginx.conf
-        - file_name: 'redmine'
-          server_name: 'development.meoblast001.info www.development.meoblast001.info'
-          port: 80
-          redirect_https: yes
-        - file_name: 'redmine-ssl'
-          server_name: 'development.meoblast001.info www.development.meoblast001.info'
-          port: '443 ssl'
-          proxy_pass: 'http://unix:/var/server/redmine/current/passenger.sock:/'
-          additional_params:
-            ssl_certificate: /etc/letsencrypt/live/development.meoblast001.info/fullchain.pem
-            ssl_certificate_key: /etc/letsencrypt/live/development.meoblast001.info/privkey.pem
-            include: /etc/letsencrypt/nginx.conf
         - file_name: 'davical'
           server_name: 'braden-walters.info www.braden-walters.info'
           port: '8443 ssl'

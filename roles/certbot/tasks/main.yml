@@ -9,6 +9,7 @@
     mode:  u=rwX,g=rX,o=X
     recurse: yes
   with_items:
+    - /etc/letsencrypt
     - /var/log/letsencrypt
     - /var/lib/letsencrypt
 - name: Create web directory /var/www/letsencrypt
@@ -17,9 +18,14 @@
 - name: Install certbot renewal in crontab
   cron: name=certbot-renewal state=present
   args:
-    value: >
-      certbot renew --quiet --webroot-path /var/www/letsencrypt
-      --post-hook 'nginx -s reload'
+    value: certbot renew --quiet --webroot-path /var/www/letsencrypt
     user: deploy
     minute: 22
+    hour: 3,15
+- name: Install root hook to reload nginx in crontab
+  cron: name=nginx-reload state=present
+  args:
+    value: nginx -s reload
+    user: root
+    minute: 30
     hour: 3,15
