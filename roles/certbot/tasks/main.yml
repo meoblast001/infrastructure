@@ -20,12 +20,12 @@
   args:
     value: certbot renew --quiet --webroot-path /var/www/letsencrypt
     user: deploy
-    minute: 22
+    minute: "22"
     hour: 3,15
 - name: Install root hook to reload nginx in crontab
   cron: name=nginx-reload state=present
   args:
-    value: nginx -s reload
+    value: systemctl reload nginx
     user: root
-    minute: 30
+    minute: "30"
     hour: 3,15
