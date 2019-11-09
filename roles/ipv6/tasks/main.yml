@@ -1,0 +1,20 @@
+---
+- name: Install sysctl file 01-ivp6.conf
+  copy: src=01-ipv6.conf dest=/etc/sysctl.d/01-ipv6.conf
+- name: Configure network to enable IPv6
+  lineinfile:
+    path: /etc/sysconfig/network
+    regexp: '^NETWORKING_IPV6='
+    line: NETWORKING_IPV6=yes
+- name:
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    regexp: "{{ item['regex'] }}"
+    line: "{{ item['line'] }}"
+  with_items:
+    - regex: '^IPV6INIT='
+      line: IPV6INIT=yes
+    - regex: '^IPV6ADDR='
+      line: IPV6ADDR={{ ip_address }}
+    - regex: '^IPV6_DEFAULTGW='
+      line: IPV6_DEFAULTGW={{ ip_gateway_address }}

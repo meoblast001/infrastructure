@@ -1,0 +1,7 @@
+---
+- hosts: all
+  roles:
+    - role: ipv6
+      become: yes
+      ip_address: "{{ hostvars[inventory_hostname]['network.ipv6_address'] }}"
+      ip_gateway_address: "{{ hostvars[inventory_hostname]['network.ipv6_gateway_address'] }}"

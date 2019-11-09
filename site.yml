@@ -1,5 +1,6 @@
 ---
 - include: base.yml
+- include: ipv6.yml
 - include: firewall.yml
 - include: letsencrypt.yml
 - include: www.yml
