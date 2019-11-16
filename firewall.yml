@@ -16,6 +16,7 @@
         - 80/tcp
         - 443/tcp
         - 8443/tcp
+        - "{{ hostvars[inventory_hostname]['sshd.port'] }}/tcp"
       become: yes
       register: enable_ports
     - name: Restart firewalld

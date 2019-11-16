@@ -32,3 +32,19 @@
     - name: Enable RHSCL repository
       shell: yum-config-manager --enable rhel-server-rhscl-7-rpms
       become: yes
+    - name: SSH port configuration
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: 'Port [1-9]+'
+        line: Port {{ hostvars[inventory_hostname]['sshd.port'] }}
+      become: yes
+    - name: Check SSH port configuration in SELinux
+      shell: semanage port --list | grep -E "ssh_port_t\\s+tcp.*\\s+{{ hostvars[inventory_hostname]['sshd.port'] }}[,$]" -q
+      register: ssh_selinux_port_set
+      changed_when: False
+      failed_when: False
+      become: yes
+    - name: Set SSH port configuration in SELinux
+      shell: semanage port --add -t ssh_port_t -p tcp {{ hostvars[inventory_hostname]['sshd.port'] }}
+      when: ssh_selinux_port_set.rc != 0
+      become: yes
